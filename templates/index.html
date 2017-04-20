@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Hello There</title>
+</head>
+<body>
+	<article>
+		<form action="/" method="POST">
+			<input type="text" name="q">
+			<button type="submit">Search</button>
+		</form>
+		<div class="results">
+			{% if list %}
+				<ul>
+				{% for item in list %}
+					<li>
+						item
+					</li>
+				{% endfor %}
+				</ul>
+			{% endif %}
+		</div>
+	</article>
+</body>
+</html>
