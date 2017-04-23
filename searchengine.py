@@ -1,4 +1,5 @@
 from sqlite3 import dbapi2 as sqlite
+sqlite.connect(":memory:", check_same_thread=False)
 import urllib.request, re
 from bs4 import *
 from urllib.parse import urljoin
@@ -54,7 +55,9 @@ class searcher:
         weights=[(1.0,self.frequencyscore(rows)),
                 (1.0,self.locationscore(rows)),
                 (1.0, self.distancescore(rows)),
-                (1.0, self.inboundlinkscore(rows))]
+                (1.0, self.inboundlinkscore(rows)),
+                (1.0, self.nnscore(rows, wordids)),
+                (1.0, self.pagerankscore(rows))]
         for (weight,scores) in weights:
             for url in totalscores:
                 totalscores[url]+=weight*scores[url]
@@ -123,6 +126,12 @@ class searcher:
                     linkscores[toid]+=pr
         maxscore=max(linkscores.values( ))
         normalizedscores=dict([(u,float(l)/maxscore) for (u,l) in linkscores.items( )])
+        return normalizedscores
+
+    def pagerankscore(self,rows):
+        pageranks=dict([(row[0],self.con.execute('select score from pagerank where urlid=%d' % row[0]).fetchone()[0]) for row in rows])
+        maxrank=max(pageranks.values())
+        normalizedscores=dict([(u,float(l)/maxrank) for (u,l) in pageranks.items( )])
         return normalizedscores
 
     def nnscore(self,rows,wordids):

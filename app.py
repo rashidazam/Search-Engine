@@ -31,9 +31,15 @@ def crawl():
 	crawler.crawl(pagelist)
 	return ('Crawling Complete')
 
+@app.route("/rank")
+def rank():
+	crawler.calculatepagerank( )
+	return ('Ranking Complete')
+
 @app.route("/create")
 def createDB():
 	crawler.createindextables()
+	nnet.maketables()
 	return ('Created')
 
 if __name__ == "__main__":
