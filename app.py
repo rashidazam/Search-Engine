@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 import searchengine, neuralnet, crawler
 searcher = searchengine.searcher('searchengine.db')
 crawler=crawler.crawler('searchengine.db')
@@ -14,14 +14,16 @@ def search():
 		return render_template('index.html', list=listOfItems, q=queryText)
 	return render_template('index.html', list=None)
 
-@app.route('/train', methods=['POST'])
-def train():
+@app.route('/train', methods=['POST', 'GET'])
+def train():		
 	if request.method == 'POST':
 		queryPhrase = request.json['q']
 		selectedURLId = int(request.json['clicked'])
+		app.logger.debug('queryPhrase: %s => selectedURLId: %s' %(queryPhrase, selectedURLId))
 		(wordids, urlIdsList, urlsList) = searcher.query(queryPhrase)
 		nnet.trainquery(wordids, urlIdsList, selectedURLId)
 		return 'done'
+	return redirect('/')
 
 @app.route("/crawl")
 def crawl():
