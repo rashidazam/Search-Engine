@@ -3,23 +3,29 @@
 
 <head>
     <title>Readaholic Search | Home</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <style type="text/css">
+        .results li{
+                list-style-type: none;
+        }
+    </style>
 </head>
 
-<body>
+<body class="container">
+    <h3>Readaholic Search</h3>
     <article>
         <form action="/" method="POST">
-        	{% if list %}
-        		<input type="text" name="q" class="q" value="{{ q }}">
-        	{% else %}
-            	<input type="text" class="q" name="q">
-            {% endif %}
+            {% if list %}
+            <input type="text" name="q" class="q" value="{{ q }}"> {% else %}
+            <input type="text" class="q" name="q"> {% endif %}
             <button type="submit">Search</button>
         </form>
         <div class="results">
             {% if list %}
             <ul>
                 {% for el in list %}
-                <li>
+                <li class="text-primary">
                     <a class="url" href="{{el.url}}" target="_blank" id="{{el.id}}">{{ el.url }}</a>
                 </li>
                 {% endfor %}
@@ -27,29 +33,33 @@
             {% endif %}
         </div>
     </article>
+    <aside>
+
+
+    </aside>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
     <script type="text/javascript">
     $(document).ready(function() {
-    	$('.url').click(function(){
-    		
-    		var data = {
-    			'q': $('.q').val(),
-    			'clicked': $(this).attr('id')
-    		}
-    		console.log(data.clicked)
-    		$.post({
-    			url: '/train',
-    			data: JSON.stringify(data),
-    			dataType: "json",
-    			contentType: "application/json",
-    			success: function(res){
-    				console.log(res)
-    			},
-    			error: function(err){
-    				console.log(err)
-    			}
-    		})
-    	})
+        $('.url').click(function() {
+
+            var data = {
+                'q': $('.q').val(),
+                'clicked': $(this).attr('id')
+            }
+            console.log('Request sent to train ANN')
+            $.post({
+                url: '/train',
+                data: JSON.stringify(data),
+                dataType: "json",
+                contentType: "application/json",
+                success: function(res) {
+                    console.log(res)
+                },
+                error: function(err) {
+                    console.log(err)
+                }
+            })
+        })
     });
     </script>
 </body>

@@ -6,7 +6,7 @@ def dtanh(y):
 
 class searchnet:
 	def __init__(self,dbname):
-		self.con=sqlite.connect(dbname)
+		self.con=sqlite.connect(dbname, check_same_thread=False)
 
 	def __del__(self):
 		self.con.close()
@@ -20,8 +20,8 @@ class searchnet:
 	def getstrength(self,fromid,toid,layer):
 		if layer==0: table='wordhidden'
 		else: table='hiddenurl'
-		res=self.con.execute('select strength from %s where fromid=%d and toid=%d' %
-		(table,fromid,toid)).fetchone( )
+		res=self.con.execute('select strength from %s\
+		 where fromid=%d and toid=%d' %	(table,fromid,toid)).fetchone( )
 		if res==None:
 			if layer==0: return -0.2
 			if layer==1: return 0
