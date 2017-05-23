@@ -109,6 +109,7 @@ class crawler:
                 self.dbcommit( )
             pages=newpages
 
+
     def calculatepagerank(self,iterations=20):
         # clear out the current PageRank tables
         self.con.execute('drop table if exists pagerank')

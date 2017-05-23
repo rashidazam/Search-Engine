@@ -43,12 +43,11 @@ class searcher:
 
     def getscoredlist(self,rows,wordids):
         totalscores=dict([(row[0],0) for row in rows])
-        #weights = [(1.0,self.pagerankscore(rows))]
-        weights=[(1.0, self.frequencyscore(rows)),
+        #  (1.5, self.pagerankscore(rows)),
+        weights=[(1.5, self.frequencyscore(rows)),
                 (1.0, self.locationscore(rows)),
-                (1.0, self.distancescore(rows)),
+                (1.5, self.distancescore(rows)),
                 (1.0, self.inboundlinkscore(rows)),
-                (1.0, self.pagerankscore(rows)),
                 (1.0, self.nnscore(rows, wordids))]
         for (weight,scores) in weights:
             for url in totalscores:

@@ -83,9 +83,13 @@ class searchnet:
 		self.wi = [[self.getstrength(wordid,hiddenid,0)
 					for hiddenid in self.hiddenids]
 					for wordid in self.wordids]
+		print('\nwi:')
+		print(self.wi)
 		self.wo = [[self.getstrength(hiddenid,urlid,1)
 					for urlid in self.urlids]
 					for hiddenid in self.hiddenids]
+		print('\nwo:')
+		print(self.wo[0:5])
 
 	def feedforward(self):
 		# the only inputs are the query words

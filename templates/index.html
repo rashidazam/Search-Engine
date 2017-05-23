@@ -2,41 +2,68 @@
 <html>
 
 <head>
-    <title>Readaholic Search | Home</title>
+    <title>Readaholic | Home</title>
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!--     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+ -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
     <style type="text/css">
-        .results li{
-                list-style-type: none;
-        }
+    .results li {
+        list-style-type: none;
+    }
     </style>
 </head>
 
-<body class="container">
-    <h3>Readaholic Search</h3>
-    <article>
-        <form action="/" method="POST">
-            {% if list %}
-            <input type="text" name="q" class="q" value="{{ q }}"> {% else %}
-            <input type="text" class="q" name="q"> {% endif %}
-            <button type="submit">Search</button>
-        </form>
-        <div class="results">
-            {% if list %}
-            <ul>
-                {% for el in list %}
-                <li class="text-primary">
-                    <a class="url" href="{{el.url}}" target="_blank" id="{{el.id}}">{{ el.url }}</a>
-                </li>
-                {% endfor %}
-            </ul>
-            {% endif %}
+<body class="container" style="padding-top: 30px;">
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <article>
+                <form action="/" method="POST">
+                    {% if list %}
+                    <a href="/" style="text-decoration: none"><h1 class="text-danger" style="text-align: center; margin-bottom: 30px;">Readaholic</h1></a>
+                    <div class="input-group">
+                        <input type="Search" name="q" class="q form-control" value="{{ q }}" spellcheck="false" required="true" autocomplete="false" autofocus="true">
+                        <span class="input-group-btn">
+                        <button class="btn btn-primary" type="submit">Search</button>
+                        </span>
+                    </div>
+                    {% else %}
+                    <div style="margin-top: 200px">
+                    <a href="/" style="text-decoration: none"><h1 class="text-danger" style="text-align: center; margin-bottom: 30px;">Readaholic</h1></a>
+                    <div class="input-group">
+                        <input type="search" name="q" class="q form-control" spellcheck="false" required="true" autocomplete="false" autofocus="true">
+                        <span class="input-group-btn">
+                        <button class="btn btn-primary" type="submit">Search</button>
+                        </span>
+                    </div>
+                    </div>
+                    {% endif %}
+                </form>
+                <div class="results">
+                    {% if list %}
+                    <p class="text-muted" style="margin-top: 20px;">Showing results for "<strong>{{q}}</strong>":</p>
+                    <hr>
+                    <ul style="padding-left: 0px;">
+                        {% for el in list %}
+                        <li>
+                            <div class="card" style="margin-bottom: 10px;">
+                                <div class="card-block">
+                                    <!-- <h4 class="card-title">Title</h4> -->
+                                    <h6 class="card-subtitle mb-2 text-muted"><a class="url" href="{{el.url}}" target="_blank" id="{{el.id}}">{{ el.url }}</a></h6>
+                                    <!-- <p class="card-text">
+                                        Lorem Ipsum
+                                    </p> -->
+                                </div>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+            </article>
         </div>
-    </article>
-    <aside>
-
-
-    </aside>
+    </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
     <script type="text/javascript">
     $(document).ready(function() {
