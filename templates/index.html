@@ -19,7 +19,7 @@
         <div class="col-md-2"></div>
         <div class="col-md-8">
             <article>
-                <form action="/" method="POST">
+                <form action="/" method="GET">
                     {% if list %}
                     <a href="/" style="text-decoration: none"><h1 class="text-danger" style="text-align: center; margin-bottom: 30px;">Readaholic</h1></a>
                     <div class="input-group">
@@ -51,9 +51,9 @@
                                 <div class="card-block">
                                     <!-- <h4 class="card-title">Title</h4> -->
                                     <h6 class="card-subtitle mb-2 text-muted"><a class="url" href="{{el.url}}" target="_blank" id="{{el.id}}">{{ el.url }}</a></h6>
-                                    <!-- <p class="card-text">
-                                        Lorem Ipsum
-                                    </p> -->
+                                    <p class="card-text text-muted">
+                                        score: {{el.score}}
+                                    </p>
                                 </div>
                             </div>
                         </li>

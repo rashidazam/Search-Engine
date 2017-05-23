@@ -58,14 +58,17 @@ class searcher:
         return self.con.execute("select url from urllist\
          where rowid=%d" % id).fetchone()[0]
 
+    # Query the db for particular search string
+    # returns a tuple of list of wordids, urlids, urls
     def query(self,q):
         rows,wordids=self.getmatchrows(q)
         scores=self.getscoredlist(rows,wordids)
         rankedscores=sorted([(score,url) for (url,score) in scores.items( )],reverse=1)
         for (score,urlid) in rankedscores[0:10]:
             print ('%f\t%s' % (score,self.geturlname(urlid)))
-        return wordids, [r[1] for r in rankedscores[0:10]],\
-         [self.geturlname(r[1]) for r in rankedscores[0:10]]
+        return wordids, [r[0] for r in rankedscores[0:10]], \
+        [r[1] for r in rankedscores[0:10]], \
+        [self.geturlname(r[1]) for r in rankedscores[0:10]]
 
     def normalizescores(self,scores,smallIsBetter=0):
         vsmall=0.00001 # Avoid division by zero errors

@@ -3,8 +3,10 @@ import urllib.request, re
 from bs4 import *
 from urllib.parse import urljoin
 
+
 # Create a list of words to ignore
 ignorewords=set(['the','of','to','and','a','in','is','it'])
+
 
 ## Crawler class
 class crawler:

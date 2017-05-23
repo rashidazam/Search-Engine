@@ -1,8 +1,10 @@
 from math import tanh
 from sqlite3 import dbapi2 as sqlite
 
+
 def dtanh(y):
 	return 1.0-y*y
+
 
 class searchnet:
 	def __init__(self,dbname):
