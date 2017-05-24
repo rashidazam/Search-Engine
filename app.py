@@ -13,7 +13,10 @@ def search():
 	if request.args:
 		queryText = request.args.get('q')
 		(wordids, scores, urlIdsList, urlsList) = searcher.query(queryText)
-		listOfItems = [{'id': urlIdsList[i], 'url': urlsList[i], 'score': scores[i]} for i in range(len(urlIdsList))]
+		if len(urlIdsList) != 0:
+			listOfItems = [{'id': urlIdsList[i], 'url': urlsList[i], 'score': scores[i]} for i in range(len(urlIdsList))]
+		else:
+			listOfItems = []
 		return render_template('index.html', list=listOfItems, q=queryText)
 	return render_template('index.html', list=None)
 
@@ -32,7 +35,7 @@ def train():
 
 @app.cli.command('crawl')
 def crawl():
-	pagelist=['https://en.wikipedia.org/wiki/Python_(programming_language)']
+	pagelist=['https://en.m.wikipedia.org/wiki/Wikipedia:Former_featured_articles','https://en.wikipedia.org/wiki/Python_(programming_language)']
 	crawler.crawl(pagelist)
 	print ('Crawling Completed')
 
@@ -46,7 +49,7 @@ def rank():
 @app.cli.command('initdb')
 def createDB():
 	crawler.createindextables()
-	nnet.maketables()
+	#nnet.maketables()
 	print ('Tables created.')
 
 

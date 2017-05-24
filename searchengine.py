@@ -36,14 +36,19 @@ class searcher:
                 clauselist+='w%d.wordid=%d' % (tablenumber,wordid)
                 tablenumber+=1
         # Create the query from the separate parts
+        if tablenumber == 0:
+            print ('Zero results')
+            return [],[]
         fullquery='select %s from %s where %s' % (fieldlist,tablelist,clauselist)
         cur=self.con.execute(fullquery)
         rows=[row for row in cur]
+        print ('rows: %d' %(len(rows)))
         return rows,wordids
 
     def getscoredlist(self,rows,wordids):
         totalscores=dict([(row[0],0) for row in rows])
         #  (1.5, self.pagerankscore(rows)),
+        #  (1.0, self.nnscore(rows, wordids))
         weights=[(1.5, self.frequencyscore(rows)),
                 (1.0, self.locationscore(rows)),
                 (1.5, self.distancescore(rows)),
@@ -59,13 +64,13 @@ class searcher:
          where rowid=%d" % id).fetchone()[0]
 
     # Query the db for particular search string
-    # returns a tuple of list of wordids, urlids, urls
+    # returns a tuple of list of wordids, scores, urlids, urls
     def query(self,q):
         rows,wordids=self.getmatchrows(q)
+        if len(rows) == 0:
+            return [], [], [], []
         scores=self.getscoredlist(rows,wordids)
         rankedscores=sorted([(score,url) for (url,score) in scores.items( )],reverse=1)
-        for (score,urlid) in rankedscores[0:10]:
-            print ('%f\t%s' % (score,self.geturlname(urlid)))
         return wordids, [r[0] for r in rankedscores[0:10]], \
         [r[1] for r in rankedscores[0:10]], \
         [self.geturlname(r[1]) for r in rankedscores[0:10]]
@@ -109,7 +114,6 @@ class searcher:
             'select count(*) from link where toid=%d' % u).fetchone( )[0]) \
             for u in uniqueurls])
         return self.normalizescores(inboundcount)
-
 
     def linktextscore(self,rows,wordids):
         linkscores=dict([(row[0],0) for row in rows])

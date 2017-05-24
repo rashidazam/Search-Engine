@@ -150,4 +150,6 @@ class crawler:
         self.con.execute('create index wordurlidx on wordlocation(wordid)')
         self.con.execute('create index urltoidx on link(toid)')
         self.con.execute('create index urlfromidx on link(fromid)')
+        # count = self.con.execute('select count(*) from urllist').fetchone()[0]
+        # print (count)
         self.dbcommit( )
