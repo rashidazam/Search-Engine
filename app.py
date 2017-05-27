@@ -49,7 +49,7 @@ def rank():
 @app.cli.command('initdb')
 def createDB():
 	crawler.createindextables()
-	#nnet.maketables()
+	nnet.maketables()
 	print ('Tables created.')
 
 

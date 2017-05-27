@@ -30,7 +30,7 @@
                     </div>
                     {% else %}
                     <div style="margin-top: 200px">
-                        <a href="/" style="text-decoration: none"><h1 class="text-danger" style="text-align: center; margin-bottom: 30px;">Readaholic</h1></a>
+                        <a href="/" style="text-decoration: none;"><h1 class="text-danger" style="text-align: center; margin-bottom: 30px;font-size: 40px;"><strong>Readaholic</strong></h1></a>
                         <div class="input-group">
                             <input type="search" name="q" class="q form-control" spellcheck="false" required="true" autocomplete="false" autofocus="true">
                             <span class="input-group-btn">
@@ -41,7 +41,7 @@
                     {% endif %}
                 </form>
                 <div class="results">
-                    {% if list|length %}
+                    {% if q %} {% if list|length %}
                     <p class="text-muted" style="margin-top: 20px;">Showing results for "<strong>{{q}}</strong>":</p>
                     <hr>
                     <ul style="padding-left: 0px;">
@@ -60,15 +60,14 @@
                         {% endfor %}
                     </ul>
                     {% else %}
-
-                            <div class="card" style="margin: 10px auto;">
-                                <div class="card-block">
-                                    <h6 class="card-subtitle mb-2 text-muted">
-                                    <span>No matching results</span>
-                                </h6>
-                                </div>
-                            </div>
-                    {% endif %}
+                    <div class="card" style="margin: 10px auto;">
+                        <div class="card-block">
+                            <h6 class="card-subtitle mb-2 text-muted">
+                                        <span>No matching results</span>
+                                    </h6>
+                        </div>
+                    </div>
+                    {% endif %} {% endif %}
                 </div>
             </article>
         </div>

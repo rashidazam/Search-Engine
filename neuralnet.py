@@ -13,12 +13,6 @@ class searchnet:
 	def __del__(self):
 		self.con.close()
 
-	def maketables(self):
-		self.con.execute('create table hiddennode(create_key)')
-		self.con.execute('create table wordhidden(fromid,toid,strength)')
-		self.con.execute('create table hiddenurl(fromid,toid,strength)')
-		self.con.commit()
-
 	def getstrength(self,fromid,toid,layer):
 		if layer==0: table='wordhidden'
 		else: table='hiddenurl'
@@ -158,3 +152,12 @@ class searchnet:
 			for k in range(len(self.urlids)):
 				self.setstrength(self.hiddenids[j], self.urlids[k], 1, self.wo[j][k])
 		self.con.commit( )
+
+	def maketables(self):
+		self.con.execute('create table hiddennode(create_key)')
+		self.con.execute('create table wordhidden(fromid,toid,strength)')
+		self.con.execute('create table hiddenurl(fromid,toid,strength)')
+		self.con.execute('create index createkeyx on hiddennode(create_key)')
+		self.con.execute('create index fromidx on wordhidden(fromid)')
+		self.con.execute('create index toidx on hiddenurl(toid)')
+		self.con.commit()
