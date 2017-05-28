@@ -35,7 +35,10 @@ def train():
 
 @app.cli.command('crawl')
 def crawl():
-	pagelist=['https://en.m.wikipedia.org/wiki/Wikipedia:Former_featured_articles','https://en.wikipedia.org/wiki/Python_(programming_language)']
+	pagelist=[
+	'https://en.wikipedia.org/wiki/Python_(programming_language)',
+	'https://en.m.wikipedia.org/wiki/Wikipedia:Former_featured_articles'
+	]
 	crawler.crawl(pagelist)
 	print ('Crawling Completed')
 
@@ -54,5 +57,5 @@ def createDB():
 
 
 if __name__ == "__main__":
-	# 'threaded=True' argument enables support concurrent requests to flask app
+	# 'threaded=True' argument enables concurrent requests to flask app
     app.run(threaded=True)
