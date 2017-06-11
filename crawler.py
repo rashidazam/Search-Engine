@@ -82,12 +82,23 @@ class crawler:
 
     # Add a link between two pages
     def addlinkref(self,urlFrom,urlTo,linkText):
+<<<<<<< HEAD
         cur = self.con.execute('insert into link (fromid,toid) values (%d,%d)' \
             % (int(urlFrom), int(urlTo)))
         rowid = cur.lastrowid
         wordsarr = linkText.split(' ')
         for word in wordsarr:
             wordid=self.getentryid('wordlist','word', word)
+=======
+        fromid = self.getentryid('urllist', 'url', urlFrom)
+        toid = self.getentryid('urllist', 'url', urlTo)
+        cur = self.con.execute('insert into link (fromid,toid) values (%d,%d)' \
+            % (fromid, toid))
+        rowid = cur.lastrowid
+        words = self.separatewords(linkText)
+        for word in words:
+            wordid = self.getentryid('wordlist','word', word)
+>>>>>>> 3cfcfc4fc7dabceb04bfa66bc31b1d2cbadd9047
             self.con.execute('insert into linkwords (linkid, wordid) values (%d, %d)' % (rowid, wordid))
         self.dbcommit()
 

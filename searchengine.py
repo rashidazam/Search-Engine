@@ -2,6 +2,8 @@ from sqlite3 import dbapi2 as sqlite
 import neuralnet
 mynet=neuralnet.searchnet('nn.db')
 
+ignorewords=set(['the','of','to','and','a','in','is','it'])
+
 
 ## Searcher class
 class searcher:
@@ -18,7 +20,8 @@ class searcher:
         clauselist=''
         wordids=[]
         # Split the words by spaces
-        words=q.split(' ')
+        words=q.split()
+        words = [word for word in words if word not in ignorewords]
         tablenumber=0
         for word in words:
             # Get the word ID
@@ -47,14 +50,14 @@ class searcher:
 
     def getscoredlist(self,rows,wordids):
         totalscores=dict([(row[0],0) for row in rows])
-        #  (1.5, self.pagerankscore(rows)),
-        #  (1.0, self.nnscore(rows, wordids))
-        print (self.inboundlinkscore(rows))
-        weights=[(1.5, self.frequencyscore(rows)),
-                (1.0, self.locationscore(rows)),
-                (1.5, self.distancescore(rows)),
-                (1.0, self.inboundlinkscore(rows)),
-                (1.0, self.nnscore(rows, wordids))]
+        weights = [
+        (1.5, self.frequencyscore(rows)),
+        (1.0, self.locationscore(rows)),
+        (1.5, self.distancescore(rows)),
+        (1.5, self.pagerankscore(rows)),
+        (1.0, self.inboundlinkscore(rows)),
+        (1.0, self.nnscore(rows, wordids))
+        ]
         for (weight,scores) in weights:
             for url in totalscores:
                 totalscores[url]+=weight*scores[url]
